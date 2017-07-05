@@ -10,9 +10,11 @@ def teclado():
     global NaveposX
 
     if teclado[K_RIGHT]:
+        if NaveposX <=1032:
             NaveposX += 5
 
     if teclado[K_LEFT]:
+        if NaveposX > 0:
             NaveposX -= 5
 
 pygame.init()
