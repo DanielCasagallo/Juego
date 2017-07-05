@@ -8,6 +8,7 @@ def teclado():
     teclado = pygame.key.get_pressed()
 
     global NaveposX
+    global NaveposY
 
     if teclado[K_RIGHT]:
         if NaveposX <=1032:
@@ -16,6 +17,14 @@ def teclado():
     if teclado[K_LEFT]:
         if NaveposX > 0:
             NaveposX -= 5
+            
+    if teclado[K_DOWN]:
+        if NaveposY <=590:
+            NaveposY += 5
+
+    if teclado[K_UP]:
+        if NaveposY > 0:
+            NaveposY -= 5
 
 pygame.init()
 ventana = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -29,7 +38,7 @@ reloj = pygame.time.Clock()
 imagen = pygame.image.load("nave.png")
 NaveposX = 500
 #La variable de la posicion Y sera constante ya que esta no variara durante el transcurso del juego
-CNaveposY = 590
+NaveposY = 590
 
 #Variables para uso de colores
 blanco = (255, 255, 255)
@@ -38,13 +47,13 @@ while True:
     teclado()
     ventana.fill(blanco)
     ventana.blit(fondo, (0, 0))
-    ventana.blit(imagen, (NaveposX, CNaveposY))
+    ventana.blit(imagen, (NaveposX, NaveposY))
 
     for evento in pygame.event.get():
         if evento.type == QUIT:
             pygame.quit()
             sys.exit()
 
-    reloj.tick(60)
+    reloj.tick(640)
     pygame.display.flip()
     pygame.display.update()
