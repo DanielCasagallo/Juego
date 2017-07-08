@@ -66,6 +66,7 @@ sonido3 = pygame.mixer.Sound("explosion.wav")
 reloj = pygame.time.Clock()
 
 #Creacion y posicion de la nave
+<<<<<<< HEAD
 
 imagen = pygame.image.load("nave2.png")
 imagen=pygame.transform.scale(imagen,(200,100))
@@ -81,8 +82,14 @@ imagen = pygame.image.load("nave2.png")
 imagen = pygame.transform.scale(imagen, (200, 100))
 
 NaveposX = 500
+=======
+pygame.mixer.music.play(2)
+imagen = pygame.image.load("nave1.png")
+imagen = pygame.transform.scale(imagen, (200, 100))
+NaveposX = -10
+>>>>>>> 533585ca95d466bfe8eff091463907a51b7dd588
 #La variable de la posicion Y sera constante ya que esta no variara durante el transcurso del juego
-NaveposY = 590
+NaveposY = 350
 
 #Variables para uso de colores
 blanco = (255, 255, 255)
@@ -108,6 +115,6 @@ while True:
             pygame.quit()
             sys.exit()
 
-    reloj.tick(640)
+    reloj.tick(850)
     pygame.display.flip()
     pygame.display.update()
