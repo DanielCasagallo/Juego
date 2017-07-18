@@ -104,10 +104,6 @@ sonido3 = pygame.mixer.Sound("explosion.wav")
 reloj = pygame.time.Clock()
 
 #Creacion y posicion de la nave
-<<<<<<< HEAD
-=======
-
->>>>>>> 00f132b4707c0147de3c904f569a5de75a8c27ee
 
 imagen = pygame.image.load("nave2.png")
 imagen=pygame.transform.scale(imagen,(200,100))
@@ -123,10 +119,7 @@ imagen = pygame.image.load("nave2.png")
 imagen = pygame.transform.scale(imagen, (200, 100))
 
 NaveposX = 500
-<<<<<<< HEAD
-=======
 
->>>>>>> 00f132b4707c0147de3c904f569a5de75a8c27ee
 pygame.mixer.music.play(2)
 imagen = pygame.image.load("nave2.png")
 imagen = pygame.transform.scale(imagen, (200, 100))
