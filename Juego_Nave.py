@@ -1,13 +1,9 @@
-dimport pygame, sys, os
+import pygame, sys, os
 from pygame.locals import *
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
-class disparo:
-    def __init__(self, posx,posy):
-        self.posx=posx
-        self.posy=posy
-        
+
 def teclado():
     teclado = pygame.key.get_pressed()
 
@@ -35,8 +31,9 @@ def teclado():
     if teclado[K_a]:
         BalaX=NaveposX+120
         BalaY=NaveposY+70
+        balita= rayos(BalaX,BalaY)
         sonido2.play()
-        return True
+        return balita
         
         
         
@@ -49,13 +46,54 @@ def teclado():
     if teclado[K_e]:
         sonido3.play()
         
+class naves():
+    def __init__(self, posx,posy):
+        self.posx=posx
+        self.posy=posy
+        
+    @property    
+    def get_posx(self):
+        return self.posx
+    
+    @property
+    def set_posx(self, posx):
+        self.posx = posx
+        
+    @property    
+    def get_posy(self):
+        return self.posy
+    
+    @property
+    def set_posy(self, posy):
+        self.posy = posy
+        
+class rayos():
+    def __init__(self, posx,posy):
+        self.posx=posx
+        self.posy=posy
+        
+    @property    
+    def get_posx(self):
+        return self.posx
+    
+    @property
+    def set_posx(self, posx):
+        self.posx = posx
+        
+    @property    
+    def get_posy(self):
+        return self.posy
+    
+    @property
+    def set_posy(self, posy):
+        self.posy = posy
 
 
 
 pygame.init()
 ventana = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Juego")
-pygame.mixer.music.load("fondos.mp3")
+pygame.mixer.music.load("RobotRock-fondo1.mp3")
 fondo = pygame.image.load("fondo.jpg")
 
 sonido = pygame.mixer.Sound("boss.wav")
@@ -66,7 +104,7 @@ sonido3 = pygame.mixer.Sound("explosion.wav")
 reloj = pygame.time.Clock()
 
 #Creacion y posicion de la nave
-<<<<<<< HEAD
+
 
 imagen = pygame.image.load("nave2.png")
 imagen=pygame.transform.scale(imagen,(200,100))
@@ -82,12 +120,12 @@ imagen = pygame.image.load("nave2.png")
 imagen = pygame.transform.scale(imagen, (200, 100))
 
 NaveposX = 500
-=======
+
 pygame.mixer.music.play(2)
-imagen = pygame.image.load("nave1.png")
+imagen = pygame.image.load("nave2.png")
 imagen = pygame.transform.scale(imagen, (200, 100))
 NaveposX = -10
->>>>>>> 533585ca95d466bfe8eff091463907a51b7dd588
+
 #La variable de la posicion Y sera constante ya que esta no variara durante el transcurso del juego
 NaveposY = 350
 
@@ -96,6 +134,12 @@ blanco = (255, 255, 255)
 BalaX=NaveposX
 BalaY=NaveposY
 movdis=False
+nave1=naves(NaveposX,NaveposY)
+disparos=[]
+acumuladores=[]
+x=0
+y=0
+acu=0
 while True:
     teclado()
     dis=teclado()
@@ -104,17 +148,30 @@ while True:
     ventana.blit(imagen, (NaveposX, NaveposY))
     ventana.blit(imagen2, (600, 200))
     ventana.blit(imagen3, (700, 400))
-    if  dis==True:
-        ventana.blit(disparo, (BalaX, BalaY))
-        movdis=True
-    if movdis==True:
-        BalaX+=10
-        ventana.blit(disparo, (BalaX, BalaY))
+    if dis != None:
+        disparos.append(dis)
+        acumuladores.append(0)
+    r=int(len(disparos))
+    
+    for i in range(0,r):       
+        acu=20+acumuladores[i]
+        x=acu+disparos[i].get_posx
+        y=disparos[i].get_posy   
+        ventana.blit(disparo,(x,y))
+        acumuladores[i]=acu
+    acu=0 
+    for i in range(0,r):
+        x=acu+disparos[i].get_posx 
+        if(x>1280):
+            del disparos[i]
+            del acumuladores[i]
+            break
+
     for evento in pygame.event.get():
         if evento.type == QUIT:
             pygame.quit()
             sys.exit()
-
+            
     reloj.tick(850)
     pygame.display.flip()
     pygame.display.update()

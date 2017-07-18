@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
 
-SCREEN_WIDTH = 1280
-SCREEN_HEIGHT = 720
+SCREEN_WIDTH = 720
+SCREEN_HEIGHT = 360
 
 class Cursor(pygame.Rect):
     def __init__(self):
