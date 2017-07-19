@@ -1,8 +1,47 @@
 import pygame, sys, os
 from pygame.locals import *
+import time #para el reloj
+import threading #para el reloj
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
+#Variables globales para el tiempo
+global minutos
+minutos = 0
+global segundos
+segundos = 0
+
+#Funcion relok o tiempo de juego
+def tiempo():
+    global segundos
+    global minutos
+    segundos = int(segundos)
+    if segundos == 59:
+        segundos = 0
+        minutos += 1
+        return tiempo()
+    else:
+        segundos += 1
+        time.sleep(1)
+        return tiempo()
+
+def Reloj():
+    fuente = pygame.font.Font(None, 20)
+    Reloj = str("Tiempo "+str(minutos)+":"+str(segundos))
+    mensaje = fuente.render(Reloj, 1, (255, 255, 255))
+    ventana.blit(mensaje, (200, 10))
+    
+#Funcion Scores o puntajes
+def puntaje():
+    vida = pygame.image.load("vida.png")
+    vida = pygame.transform.scale(vida,(20,20))
+    ventana.blit(vida, (100, 10))
+    ventana.blit(vida, (120, 10))
+    ventana.blit(vida, (140, 10))
+    fuente = pygame.font.Font(None, 20)
+    text = "Score: 500"
+    mensaje = fuente.render(text, 1, (255, 255, 255))
+    ventana.blit(mensaje, (10, 10))
 
 def teclado():
     teclado = pygame.key.get_pressed()
@@ -139,6 +178,11 @@ acumuladores=[]
 x=0
 y=0
 acu=0
+
+#Creacion de thread o hilo
+hilo = threading.Thread(target = tiempo, args = ())
+hilo.start()
+
 while True:
     teclado()
     dis=teclado()
@@ -147,6 +191,10 @@ while True:
     ventana.blit(imagen, (NaveposX, NaveposY))
     ventana.blit(imagen2, (600, 200))
     ventana.blit(imagen3, (700, 400))
+    puntaje() #Llamada a la funcion puntaje
+    Reloj()
+
+    
     if dis != None:
         disparos.append(dis)
         acumuladores.append(0)
