@@ -43,6 +43,8 @@ def puntaje():
     mensaje = fuente.render(text, 1, (255, 255, 255))
     ventana.blit(mensaje, (10, 10))
 
+    
+
 def teclado():
     teclado = pygame.key.get_pressed()
 
@@ -84,6 +86,7 @@ def teclado():
         sonido2.play()
     if teclado[K_e]:
         sonido3.play()
+
         
 class naves():
     def __init__(self, posx,posy):
@@ -133,7 +136,7 @@ pygame.init()
 ventana = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Juego")
 pygame.mixer.music.load("RobotRock-fondo1.mp3")
-fondo = pygame.image.load("fondo.jpg")
+fondo = pygame.image.load("fondo1.jpg")
 
 sonido = pygame.mixer.Sound("boss.wav")
 sonido1 = pygame.mixer.Sound("menu.wav")
@@ -151,6 +154,7 @@ imagen2=pygame.transform.scale(imagen2,(200,100))
 imagen3 = pygame.image.load("nave4.png")
 imagen3=pygame.transform.scale(imagen3,(400,400))
 disparo = pygame.image.load("disparo.png")
+disparo=pygame.transform.scale(disparo,(40,40))
 
 
 pygame.mixer.music.play()
@@ -222,3 +226,5 @@ while True:
     reloj.tick(850)
     pygame.display.flip()
     pygame.display.update()
+
+

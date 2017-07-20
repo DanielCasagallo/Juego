@@ -1,8 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
 
-SCREEN_WIDTH = 720
-SCREEN_HEIGHT = 360
+SCREEN_WIDTH = 1100
+SCREEN_HEIGHT = 620
 
 class Cursor(pygame.Rect):
     def __init__(self):
@@ -29,11 +29,12 @@ pygame.init()
 menu = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption("Menu")
 fondo = pygame.image.load("fondo.jpg")
+fondo = pygame.transform.scale(fondo,(1100,620))
+
 pygame.mixer.music.load("menu.wav")
 
-logo = pygame.image.load("logo.png")
-logo = pygame.transform.scale(logo, (220, 170))
-
+fondoseleccion = pygame.image.load("fondoseleccion.png")
+fondoseleccion = pygame.transform.scale(fondoseleccion,(600,250))
 reloj = pygame.time.Clock()
 inicio1 = pygame.image.load("inicio.png")
 inicio2 = pygame.image.load("inicio1.png")
@@ -41,9 +42,9 @@ tuto1 = pygame.image.load("tuto.png")
 tuto2 = pygame.image.load("tuto1.png")
 score1 = pygame.image.load("score.png")
 score2 = pygame.image.load("score1.png")
-boton1 = Boton(inicio1, inicio2, 100, 115)
-boton2 = Boton(tuto1, tuto2, 100, 270)
-boton3 = Boton(score1, score2, 100, 410)
+boton1 = Boton(inicio1, inicio2, 10, 350)
+boton2 = Boton(tuto1, tuto2, 10, 400)
+boton3 = Boton(score1, score2, 10, 450)
 
 cursor1 = Cursor()
 
@@ -54,7 +55,7 @@ blanco = (255, 255, 255)
 while True:
     menu.fill(blanco)
     menu.blit(fondo, (0, 0))
-    menu.blit(logo, (1150, 25))
+    menu.blit(fondoseleccion, (410, 350))
 
     for evento in pygame.event.get():
         if evento.type == QUIT:
