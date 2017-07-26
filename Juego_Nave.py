@@ -2,6 +2,7 @@ import pygame, sys, os
 from pygame.locals import *
 import time #para el reloj
 import threading #para el reloj
+from random import randint
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
@@ -130,7 +131,55 @@ class rayos():
     def set_posy(self, posy):
         self.posy = posy
 
+def crearPersonajes():
+    if segundos%3 == 0:
+        EnemyX = -1500
+        EnemyY = randint(0,650)
+        newEnemy = enemigos(EnemyX,EnemyY)
+        return newEnemy
 
+class enemigos():
+    def __init__(self, posx, posy):
+        self.posx = posx
+        self.posy = posy
+
+    @property
+    def get_posx(self):
+        return self.posx
+
+    @property
+    def set_posx(self, posx):
+        self.posx = posx
+
+    @property
+    def get_posy(self):
+        return self.posy
+
+    @property
+    def set_posy(self, posy):
+        self.posy = posy
+
+def crearEnemigos():
+    if enemy != None:
+        enemigosA.append(enemy)
+        acumuladoresEnemigos.append(0)
+    r = int(len(enemigosA))
+
+    for i in range(0, r):
+        acuE = -20 + acumuladoresEnemigos[i]
+        x = -acuE + enemigosA[i].get_posx
+        x1 = -x
+        y = enemigosA[i].get_posy
+        ventana.blit(imagen2, (x1, y))
+        acumuladoresEnemigos[i] = acuE
+    acuE = 0
+
+    for i in range(0, r):
+        x1 = acuE + enemigosA[i].get_posx
+        if (x1 > 0):
+            del enemigosA[i]
+            del acumuladoresEnemigos[i]
+            break
 
 pygame.init()
 ventana = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
@@ -179,6 +228,8 @@ movdis=False
 nave1=naves(NaveposX,NaveposY)
 disparos=[]
 acumuladores=[]
+enemigosA=[]
+acumuladoresEnemigos=[]
 x=0
 y=0
 acu=0
@@ -190,15 +241,16 @@ hilo.start()
 while True:
     teclado()
     dis=teclado()
+    enemy = crearPersonajes()
+    
     ventana.fill(blanco)
     ventana.blit(fondo, (0, 0))
     ventana.blit(imagen, (NaveposX, NaveposY))
-    ventana.blit(imagen2, (600, 200))
     ventana.blit(imagen3, (700, 400))
     puntaje() #Llamada a la funcion puntaje
     Reloj()
 
-    
+    crearEnemigos()
     if dis != None:
         disparos.append(dis)
         acumuladores.append(0)
