@@ -47,7 +47,7 @@ def puntaje():
     
 
 def teclado():
-    teclado = pygame.key.get_pressed()
+    teclado = pygame.key.event.get()
 
     global NaveposX
     global NaveposY
@@ -70,7 +70,7 @@ def teclado():
         if NaveposY > 0:
             NaveposY -= 5
 
-    if teclado[K_a]:
+    if teclado [K_SPACE]:
         BalaX=NaveposX+120
         BalaY=NaveposY+70
         balita= rayos(BalaX,BalaY)

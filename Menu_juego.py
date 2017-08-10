@@ -1,5 +1,7 @@
 import pygame, sys, os
 from pygame.locals import *
+import tkinter as tk
+from tkinter import ttk
 
 SCREEN_WIDTH = 1100
 SCREEN_HEIGHT = 620
@@ -9,6 +11,21 @@ class Cursor(pygame.Rect):
         pygame.Rect.__init__(self, 0, 0, 1, 1)
     def update(self):
         self.left, self.top = pygame.mouse.get_pos()
+
+class Progressbar(ttk.Frame):    
+    def __init__(self,NUMERO):
+        super().__init__()
+        
+        self.progressbar = ttk.Progressbar(self)
+        self.progressbar.place(x=10, y=10,width=500,height=10,)
+        self.progressbar.step(NUMERO)
+        self.place(width=700, height=700)
+        
+        
+
+NUMERO =10
+Cargar = Progressbar(NUMERO)
+
 
 class Boton(pygame.sprite.Sprite):
     def __init__(self, imagen1, imagen2, x, y):
