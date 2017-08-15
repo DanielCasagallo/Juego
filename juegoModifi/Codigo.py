@@ -11,6 +11,10 @@ import threading #hilos para la ejecucion del hiloi
 
 Ancho = 1200
 Alto = 630
+
+SCREEN_WIDTH = 1200
+SCREEN_HEIGHT = 630
+
 puntos = 0
 vida = 0
 cont =0
@@ -461,11 +465,42 @@ def Score(Puntos):
     mensaje1 = fuente.render(score, 1, (255, 255, 255))
     Ventana.blit(mensaje1, (750, 15))
 
+def crear():
+    archivo=open('txt2.txt','w')
+    archivo.close()
+def grabar(mensaje):
+    archivo=open('txt2.txt','a')
+    archivo.write(mensaje)
+    archivo.close()
+def leer():
+    archivo=open('txt2.txt','r')
+    linea=archivo.readline()
+    while linea!='':
+        print(linea)
+        escore=str(linea)
+        linea=archivo.readline()
+        
+        fuente = pygame.font.SysFont("Arial", 12)
+        mensaje1 = fuente.render(escore, 1, (255, 255, 255))
+        Ventana.blit(mensaje1, (750, 10))
+        
+        return linea
+    
 
+    archivo.close()
+    
+    
+def Almacenar_Puntos():
+    crear()
+    mensaje="puntuacion es"
+    grabar(mensaje)
+    leer()
+
+
+    
 #Crear hilo de ejecucion
 hilo = threading.Thread(target = tiempo, args = ())
 hilo.start()
-
 
 
 def Space():
@@ -515,8 +550,7 @@ def Space():
 
         for event in GAME_EVENTOS.get():
             if event.type == GAME_GLOBALS.QUIT:
-                pygame.quit()
-                sys.exit()
+                pantalla_Principal()
             if GameOver == True:
                 if event.type == pygame.KEYDOWN:
 
@@ -573,13 +607,6 @@ def Space():
             if ((len(ListaEnemigo) - 1) == 0):
                 pass
                 #GameOver = False
-
-
-
-
-
-
-
 
 
 
@@ -654,5 +681,104 @@ def Space():
         Score(puntos)
         pygame.display.update()
 
-Space()
 
+class Cursor(pygame.Rect):
+    def __init__(self):
+        pygame.Rect.__init__(self, 0, 0, 1, 1)
+    def update(self):
+        self.left, self.top = pygame.mouse.get_pos()
+
+class Boton(pygame.sprite.Sprite):
+    def __init__(self, imagen1, imagen2, x, y):
+        self.imagen_normal = imagen1
+        self.imagen_seleccion = imagen2
+        self.imagen_actual = self.imagen_normal
+        self.rect = self.imagen_actual.get_rect()
+        self.rect.left, self.rect.top = (x, y)
+
+       
+        
+    def update(self, menu, cursor,identidad):
+        
+        cur = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        
+        if cursor.colliderect(self.rect):
+            self.imagen_actual = self.imagen_seleccion
+            if click[0]==1:
+                if identidad == "inicio":
+                    Space()
+                if identidad == "records":
+                    pantalla_score()                    
+                
+                
+
+        
+        else: self.imagen_actual = self.imagen_normal
+
+        menu.blit(self.imagen_actual, self.rect)
+
+def pantalla_Principal():
+    pygame.init()
+    menu = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+    pygame.display.set_caption("Menu")
+    fondo = pygame.image.load("fondo.jpg")
+    fondo = pygame.transform.scale(fondo,(SCREEN_WIDTH,SCREEN_HEIGHT))
+
+    pygame.mixer.music.load("menu.wav")
+
+
+    inicio1 = pygame.image.load("inicio.png")
+    inicio2 = pygame.image.load("inicio1.png")
+    tuto1 = pygame.image.load("tuto.png")
+    tuto2 = pygame.image.load("tuto1.png")
+    score1 = pygame.image.load("score.png")
+    score2 = pygame.image.load("score1.png")
+    boton1 = Boton(inicio1, inicio2, 10, 350)
+    boton3 = Boton(score1, score2, 10, 400)
+
+    cursor1 = Cursor()
+
+    pygame.mixer.music.play(2)
+
+    blanco = (255, 255, 255)
+
+    while True:
+        menu.fill(blanco)
+        menu.blit(fondo, (0, 0))
+
+        for evento in pygame.event.get():
+            if evento.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+
+        cursor1.update()
+        boton1.update(menu, cursor1,"inicio")
+        boton3.update(menu, cursor1,"records")
+        pygame.display.flip()
+        pygame.display.update()
+        
+def pantalla_score():
+    pygame.init()
+    menu = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+    pygame.display.set_caption("Score")
+    fondo = pygame.image.load("fondoescore.jpg")
+    fondo = pygame.transform.scale(fondo,(SCREEN_WIDTH,SCREEN_HEIGHT))
+    pygame.mixer.music.load("menu.wav")
+    pygame.mixer.music.play(2)
+    blanco = (255, 255, 255)
+
+
+    while True:
+        menu.fill(blanco)
+        menu.blit(fondo, (0, 0))
+
+        for evento in pygame.event.get():
+            if evento.type == QUIT:
+                pantalla_Principal()
+        Almacenar_Puntos()
+        pygame.display.flip()
+        pygame.display.update()
+
+pantalla_Principal()
